@@ -1,25 +1,25 @@
-import urequests
+"""
+A simple class to use WeatherAPI
+https://www.weatherapi.com/
 
+v1.0
+"""
+
+import urequests
 
 class Weatherapi:
     def __init__(self, key: str, city: str):
-        self.current_weather = self.get_current_weather_from_api()
-        self.forecast_weather = self.get_forecast_weather_from_api()
         self.city = city
         self.key = key
 
     def get_current_weather_from_api(self, aqi: str = "no") -> dict:
-        response = urequests.get(
-            url=f"https://api.weatherapi.com/v1/current.json?key={self.key}&q={self.city}&aqi={aqi}").json
+        response = urequests.get(url=f"https://api.weatherapi.com/v1/current.json?key={self.key}&q={self.city}&aqi={aqi}").json()
         return response["current"]
 
-    def get_forecast_weather_from_api(self, aqi: str = "no", days: int = 1, hour: int = None) -> dict:
+    def get_forecast_weather_from_api(self, aqi: str = "no", days: int = 1, hour: int = 12) -> dict:
         response = urequests.get(url=f"https://api.weatherapi.com/v1/forecast.json?key={self.key}&q={self.city}&aqi={aqi}&days={days}&hour={hour}&lang=fr").json()
         return response["forecast"]["forecastday"]
 
-    def initialize_variable(self):
-        self.current_weather = self.get_current_weather_from_api()
-        self.forecast_weather = self.get_forecast_weather_from_api()
 
     def current_weather_option(self, param: str) -> int:
         """current_weather_option() take the parameter of what you want to get such as "temp_c" or "humidity"
